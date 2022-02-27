@@ -4,6 +4,7 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import lombok.SneakyThrows;
 import org.junit.Assert;
+import qa.model.TestData;
 import qa.pages.MainPage;
 import qa.pages.PracticeForm;
 
@@ -19,6 +20,7 @@ import static com.codeborne.selenide.Selenide.$$;
 public class AppManager {
 
     public static ArrayList<String> errorList;
+    public static TestData tD;
     private Navigation navigation;
     private MainPage mainPage;
     private PracticeForm practiceForm;
@@ -26,6 +28,13 @@ public class AppManager {
     public void init() {
         errorList = new ArrayList<>();
         mainPage().openMainPage();
+    }
+
+    public AppManager() {
+
+    }
+    public AppManager(TestData tD) {
+        this.tD = tD;
     }
 
     //region Lazy Page Initialization

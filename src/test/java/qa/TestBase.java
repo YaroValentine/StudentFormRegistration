@@ -1,5 +1,6 @@
 package qa;
 
+import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import qa.app.AppManager;
@@ -12,6 +13,7 @@ public class TestBase {
 
     @BeforeAll
     static void setUp() {
+        Configuration.browserSize = "1980x1200";
         app = new AppManager();
         app.init();
     }

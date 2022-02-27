@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 @Data
 @Accessors(chain = true)
-public class PracticeFormData {
+public class TestData {
 
     String
             firstName,
@@ -15,7 +15,7 @@ public class PracticeFormData {
             email,
             gender,
             dateOfBirth,
-            number,
+            mobile,
             address,
             state,
             city;

@@ -2,15 +2,16 @@ package qa.pages;
 
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
-import qa.model.PracticeFormData;
+import qa.app.AppManager;
 
 import java.util.ArrayList;
 
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static java.lang.String.format;
 
-public class PracticeForm {
+public class PracticeForm extends AppManager {
 
     static final String URL = "https://demoqa.com/automation-practice-form";
 
@@ -19,9 +20,9 @@ public class PracticeForm {
             firstName = $("#firstName"),
             lastName = $("#lastName"),
             email = $("#userEmail"),
-            genderMale = $x("//label[@for='gender-radio-1']"),
-            genderFemale = $x("//label[@for='gender-radio-2']"),
-            genderOther = $x("//label[@for='gender-radio-3']"),
+            genderMale = $(byText("Male")),
+            genderFemale = $(byText("Female")),
+            genderOther = $(byText("Other")),
             userNumber = $("#userNumber"),
             dateOfBirth = $("#dateOfBirthInput"),
             monthPicker = $(".react-datepicker__month-select"),
@@ -33,7 +34,17 @@ public class PracticeForm {
             currentAddress = $("#currentAddress"),
             state = $("#state"),
             city = $("#city"),
-            submit = $("#submit");
+            submit = $("#submit"),
+            tableStudentName = $x("//td[text()='Student Name']/.."),
+            tableStudentEmail = $x("//td[text()='Student Email']/.."),
+            tableGender = $x("//td[text()='Gender']/.."),
+            tableMobile = $x("//td[text()='Mobile']/.."),
+            tableDateOfBirth = $x("//td[text()='Date of Birth']/.."),
+            tableSubjects = $x("//td[text()='Subjects']/.."),
+            tableHobbies = $x("//td[text()='Hobbies']/.."),
+            tablePictures = $x("//td[text()='Picture']/.."),
+            tableAddress = $x("//td[text()='Address']/.."),
+            tableStateAndCity = $x("//td[text()='State and City']/..");
     //endregion
 
 
@@ -43,12 +54,12 @@ public class PracticeForm {
         return this;
     }
 
-    public PracticeForm fillPracticeForm(PracticeFormData tD) {
+    public PracticeForm fillPracticeForm() {
         setFirstName(tD.getFirstName());
         setLastName(tD.getLastName());
         setEmail(tD.getEmail());
         chooseGender(tD.getGender());
-        setMobileNumber(tD.getNumber());
+        setMobileNumber(tD.getMobile());
         setDateOfBirth(tD.getDateOfBirth());
         setSubjects(tD.getSubjects());
         chooseHobbie(tD.getHobbies());
@@ -59,20 +70,19 @@ public class PracticeForm {
         return this;
     }
 
-    public void verifyForm(PracticeFormData tD) {
-        String locator = "//td[contains(text(), '%s')]/../child::td[2]";
+    public void verifyForm() {
         String[] dateOfBirthValues = tD.getDateOfBirth().replace(",", "").split(" ");
         String dateOfBirth = dateOfBirthValues[2] + " " + dateOfBirthValues[1] + "," + dateOfBirthValues[3];
-        $x(format(locator, "Student Name")).scrollTo().shouldHave(text(tD.getFirstName() + " " + tD.getLastName()));
-        $x(format(locator, "Student Email")).scrollTo().shouldHave(text(tD.getEmail()));
-        $x(format(locator, "Gender")).scrollTo().shouldHave(text(tD.getGender()));
-        $x(format(locator, "Mobile")).scrollTo().shouldHave(text(tD.getNumber()));
-        $x(format(locator, "Date of Birth")).scrollTo().shouldHave(text(dateOfBirth));
-        tD.getSubjects().forEach(subject -> $x(format(locator, "Subjects")).scrollTo().shouldHave(text(subject)));
-        tD.getHobbies().forEach(hobbie -> $x(format(locator, "Hobbies")).scrollTo().shouldHave(text(hobbie)));
-        $x(format(locator, "Address")).scrollTo().shouldHave(text(tD.getAddress()));
-        $x(format(locator, "State and City")).scrollTo().shouldHave(text(tD.getState()));
-        $x(format(locator, "State and City")).scrollTo().shouldHave(text(tD.getState()));
+
+        tableStudentName.shouldHave(text(tD.getFirstName() + " " + tD.getLastName()));
+        tableStudentEmail.shouldHave(text(tD.getEmail()));
+        tableGender.shouldHave(text(tD.getGender()));
+        tableMobile.shouldHave(text(tD.getMobile()));
+        tableDateOfBirth.shouldHave(text(dateOfBirth));
+        tD.getSubjects().forEach(subject -> (tableSubjects).shouldHave(text(subject)));
+        tD.getHobbies().forEach(hobbie -> tableHobbies.shouldHave(text(hobbie)));
+        tableAddress.shouldHave(text(tD.getAddress()));
+        tableStateAndCity.shouldHave(text(tD.getState()));
     }
 
 
@@ -93,12 +103,12 @@ public class PracticeForm {
     }
 
     private void setDateOfBirth(String date) {
-        String[] dateOfBirthValues = date.replace(",", "").split(" ");
+        String[] formattedDate = date.replace(",", "").split(" ");
         SelenideElement datePicker = $(String.format(".react-datepicker__day--0%s:not(.react-datepicker__day--outside-month)"
-                , dateOfBirthValues[2]));
+                , formattedDate[2]));
         dateOfBirth.click();
-        monthPicker.selectOption(dateOfBirthValues[1]);
-        yearPicker.selectOption(dateOfBirthValues[3]);
+        monthPicker.selectOption(formattedDate[1]);
+        yearPicker.selectOption(formattedDate[3]);
         datePicker.click();
     }
 
@@ -161,8 +171,7 @@ public class PracticeForm {
     }
 
     private void clickSubmit() {
-        submit.scrollTo();
-        submit.click();
+        submit.scrollIntoView(true).click();
     }
 
 }

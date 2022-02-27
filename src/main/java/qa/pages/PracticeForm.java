@@ -127,35 +127,31 @@ public class PracticeForm extends AppManager {
     }
 
     private void chooseGender(String gender) {
-        if (gender != null) {
-            switch (gender.toLowerCase()) {
-                case "male":
-                    genderMale.click();
-                    break;
-                case "female":
-                    genderFemale.click();
-                    break;
-                case "other":
-                    genderOther.click();
-                    break;
-            }
+        switch (gender.toLowerCase()) {
+            case "male":
+                genderMale.click();
+                break;
+            case "female":
+                genderFemale.click();
+                break;
+            case "other":
+                genderOther.click();
+                break;
         }
     }
 
     private void chooseHobbie(ArrayList<String> hobbies) {
-        if (hobbies != null) {
-            for (String hobbie : hobbies) {
-                switch (hobbie.toLowerCase()) {
-                    case "sports":
-                        hobbiesSports.scrollIntoView(true).click();
-                        break;
-                    case "reading":
-                        hobbiesReading.scrollIntoView(true).click();
-                        break;
-                    case "music":
-                        hobbiesMusic.scrollIntoView(true).click();
-                        break;
-                }
+        for (String hobbie : hobbies) {
+            switch (hobbie.toLowerCase()) {
+                case "sports":
+                    hobbiesSports.scrollIntoView(true).click();
+                    break;
+                case "reading":
+                    hobbiesReading.scrollIntoView(true).click();
+                    break;
+                case "music":
+                    hobbiesMusic.scrollIntoView(true).click();
+                    break;
             }
         }
     }

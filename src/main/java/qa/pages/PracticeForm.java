@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
-import static java.lang.String.format;
 
 public class PracticeForm extends AppManager {
 
@@ -79,12 +78,11 @@ public class PracticeForm extends AppManager {
         tableGender.shouldHave(text(tD.getGender()));
         tableMobile.shouldHave(text(tD.getMobile()));
         tableDateOfBirth.shouldHave(text(dateOfBirth));
-        tD.getSubjects().forEach(subject -> (tableSubjects).shouldHave(text(subject)));
+        tD.getSubjects().forEach(subject -> tableSubjects.shouldHave(text(subject)));
         tD.getHobbies().forEach(hobbie -> tableHobbies.shouldHave(text(hobbie)));
         tableAddress.shouldHave(text(tD.getAddress()));
         tableStateAndCity.shouldHave(text(tD.getState()));
     }
-
 
     private void setFirstName(String value) {
         firstName.setValue(value);

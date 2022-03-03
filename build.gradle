@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "io.qameta.allure" version "2.9.6"
 }
 
 group 'qa'
@@ -10,7 +11,7 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.7.1'
+    junitVersion = '5.8.2'
 }
 
 sourceCompatibility = '11'
@@ -22,28 +23,39 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     implementation(
-            'org.seleniumhq.selenium:selenium-java:4.1.0',
-            'com.codeborne:selenide:6.1.1',
-            'junit:junit:4.13.2',
+            'com.codeborne:selenide:6.3.0',
             "org.junit.jupiter:junit-jupiter:${junitVersion}",
             'org.apache.poi:poi-ooxml:5.1.0',
             'org.codehaus.jackson:jackson-core-asl:1.9.13',
             'com.github.javafaker:javafaker:1.0.2'
     )
-
     testImplementation(
             'org.hamcrest:hamcrest:2.2',
-            'org.slf4j:slf4j-simple:1.7.32',
-            "org.junit.jupiter:junit-jupiter-api:${junitVersion}",
+            'org.slf4j:slf4j-simple:1.7.36',
+            "org.junit.jupiter:junit-jupiter:${junitVersion}",
             'org.assertj:assertj-core:3.22.0'
     )
-
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
-
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+allure {
+    report {
+        version.set("2.17.2")
+    }
+    adapter {
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set("2.17.2")
+            }
+        }
+    }
 }
 
 test {
     useJUnitPlatform()
 }
+
+

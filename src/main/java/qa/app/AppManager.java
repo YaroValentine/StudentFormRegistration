@@ -3,7 +3,7 @@ package qa.app;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import lombok.SneakyThrows;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import qa.model.TestData;
 import qa.pages.MainPage;
 import qa.pages.PracticeForm;
@@ -92,7 +92,7 @@ public class AppManager {
                 i++;
                 error.append(i).append(") ").append(elementsText).append(" is required. ");
             }
-            Assert.fail(error.toString());
+            Assertions.fail(error.toString());
         }
     }
 }

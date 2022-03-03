@@ -2,6 +2,7 @@ package qa.pages;
 
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import qa.app.AppManager;
 
 import java.util.ArrayList;
@@ -69,6 +70,7 @@ public class PracticeForm extends AppManager {
         return this;
     }
 
+    @Step("Verify Form")
     public void verifyForm() {
         String[] dateOfBirthValues = tD.getDateOfBirth().replace(",", "").split(" ");
         String dateOfBirth = dateOfBirthValues[2] + " " + dateOfBirthValues[1] + "," + dateOfBirthValues[3];

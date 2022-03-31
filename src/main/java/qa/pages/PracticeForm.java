@@ -1,7 +1,10 @@
 package qa.pages;
 
 import com.codeborne.selenide.Selectors;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import qa.app.AppManager;
 
@@ -47,13 +50,14 @@ public class PracticeForm extends AppManager {
             tableStateAndCity = $x("//td[text()='State and City']/..");
     //endregion
 
-
-    public PracticeForm openPracticeForm() {
-        open(PracticeForm.URL);
+    @Step("Open Practice Form")
+    public PracticeForm open() {
+        Selenide.open(PracticeForm.URL);
 
         return this;
     }
 
+    @Step("Fill Practice Form")
     public PracticeForm fillPracticeForm() {
         setFirstName(tD.getFirstName());
         setLastName(tD.getLastName());
@@ -66,6 +70,7 @@ public class PracticeForm extends AppManager {
         setCurrentAddress(tD.getAddress());
         selectState(tD.getState());
         selectCity(tD.getCity());
+        takeScreenshot();
         clickSubmit();
         return this;
     }
@@ -74,7 +79,8 @@ public class PracticeForm extends AppManager {
     public void verifyForm() {
         String[] dateOfBirthValues = tD.getDateOfBirth().replace(",", "").split(" ");
         String dateOfBirth = dateOfBirthValues[2] + " " + dateOfBirthValues[1] + "," + dateOfBirthValues[3];
-
+        takeScreenshot();
+        savePageSource();
         tableStudentName.shouldHave(text(tD.getFirstName() + " " + tD.getLastName()));
         tableStudentEmail.shouldHave(text(tD.getEmail()));
         tableGender.shouldHave(text(tD.getGender()));
@@ -86,22 +92,27 @@ public class PracticeForm extends AppManager {
         tableStateAndCity.shouldHave(text(tD.getState()));
     }
 
+    @Step("Set First Name: {value}")
     private void setFirstName(String value) {
         firstName.setValue(value);
     }
 
+    @Step("Set Last Name: {value}")
     private void setLastName(String value) {
         lastName.setValue(value);
     }
 
+    @Step("Set Email: {value}")
     private void setEmail(String value) {
         email.setValue(value);
     }
 
+    @Step("Set Mobile Number: {value}")
     private void setMobileNumber(String value) {
         userNumber.setValue(value);
     }
 
+    @Step("Set Date of Birth: {date}")
     private void setDateOfBirth(String date) {
         String[] formattedDate = date.replace(",", "").split(" ");
         SelenideElement datePicker = $(String.format(".react-datepicker__day--0%s:not(.react-datepicker__day--outside-month)"
@@ -112,6 +123,7 @@ public class PracticeForm extends AppManager {
         datePicker.click();
     }
 
+    @Step("Set First Subjects: {subjects}")
     private void setSubjects(ArrayList<String> subjects) {
         if (subjects != null) {
             for (String subject : subjects) {
@@ -122,10 +134,12 @@ public class PracticeForm extends AppManager {
         }
     }
 
+    @Step("Set Address: {address}")
     private void setCurrentAddress(String address) {
         currentAddress.setValue(address);
     }
 
+    @Step("Set Gender: {gender}")
     private void chooseGender(String gender) {
         switch (gender.toLowerCase()) {
             case "male":
@@ -140,6 +154,7 @@ public class PracticeForm extends AppManager {
         }
     }
 
+    @Step("Set Hobbies: {hobbies}")
     private void chooseHobbie(ArrayList<String> hobbies) {
         for (String hobbie : hobbies) {
             switch (hobbie.toLowerCase()) {
@@ -156,16 +171,19 @@ public class PracticeForm extends AppManager {
         }
     }
 
+    @Step("Select State: {_state}")
     private void selectState(String _state) {
         state.scrollTo().click();
         $(Selectors.byText(_state)).click();
     }
 
+    @Step("Select City: {_city}")
     private void selectCity(String _city) {
         city.scrollTo().click();
         $(Selectors.byText(_city)).click();
     }
 
+    @Step("Click Submit button")
     private void clickSubmit() {
         submit.scrollIntoView(true).click();
     }

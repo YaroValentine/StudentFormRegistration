@@ -2,12 +2,21 @@ package qa.app;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.commands.TakeScreenshot;
+import io.qameta.allure.Allure;
+import io.qameta.allure.Attachment;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import qa.model.TestData;
 import qa.pages.MainPage;
 import qa.pages.PracticeForm;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.codeborne.selenide.Selenide.$$;
+import static io.qameta.allure.Allure.addAttachment;
 
 public class AppManager {
 
@@ -95,4 +105,42 @@ public class AppManager {
             Assertions.fail(error.toString());
         }
     }
+
+    @Attachment(value = "Screenshot", type = "image/png", fileExtension = "png")
+    public byte[] takeScreenshot() {
+        return ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES);
+    }
+
+    public void savePageSource() {
+        Allure.addAttachment("Page Source", "text/html", WebDriverRunner.source(), "html");
+    }
+
+    @Attachment(value = "Page source", type = "text/html")
+    public static byte[] attachPageSource() {
+        return WebDriverRunner.getWebDriver().getPageSource().getBytes(StandardCharsets.UTF_8);
+    }
+    @Attachment(value = "Video", type = "text/html", fileExtension = ".html")
+    public static String attachVideo(String sessionId) {
+        return "<html><body><video width='100%' height='100%' controls autoplay><source src='"
+                + getVideoUrl(sessionId)
+                + "' type='video/mp4'></video></body></html>";
+    }
+
+    public static String getVideoUrl(String sessionId) {
+        return getWebVideoUrl(sessionId);
+    }
+
+    public static String getWebVideoUrl(String sessionId) {
+        try {
+            return new URL(getWebVideoStorage() + sessionId + ".mp4") + "";
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getWebVideoStorage() {
+        return System.getProperty("video.storage");
+    }
+
 }

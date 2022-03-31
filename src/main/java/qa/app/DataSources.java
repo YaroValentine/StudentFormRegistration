@@ -3,6 +3,7 @@ package qa.app;
 
 import qa.model.TestData;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class DataSources {
 
-    public static Iterator<Object> practiceFormTestData() {
+    public static Iterator<Object> practiceFormTestData() throws FileNotFoundException {
         List<Object> list = new ArrayList<>();
         Iterator<String[]> rows = ExcelReader.getData("Practice Form Test Data", "data");
         while (rows.hasNext()) {

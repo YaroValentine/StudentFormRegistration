@@ -7,6 +7,7 @@ import com.codeborne.xlstest.XLS;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.opencsv.CSVReader;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import qa.files.domain.Student;
 
@@ -20,7 +21,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.open;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
-
+@Disabled
 public class LectureTests {
 
     ClassLoader classLoader = getClass().getClassLoader();
@@ -77,7 +78,7 @@ public class LectureTests {
         //Almost the same
         ClassLoader classLoader2 = LectureTests.class.getClassLoader();
 
-        try (InputStream is = classLoader.getResourceAsStream("files/to_zip/sample1.csv");
+        try (InputStream is = classLoader.getResourceAsStream("files/sample1.csv");
              CSVReader reader = new CSVReader(new InputStreamReader(is))) {
             List<String[]> content = reader.readAll();
             assertThat(content.get(0)).contains(

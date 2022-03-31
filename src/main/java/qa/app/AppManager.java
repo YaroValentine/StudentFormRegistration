@@ -35,16 +35,46 @@ public class AppManager {
     private MainPage mainPage;
     private PracticeForm practiceForm;
 
-    public void init() {
-        errorList = new ArrayList<>();
-        mainPage().openMainPage();
-    }
-
     public AppManager() {
 
     }
+
     public AppManager(TestData tD) {
-        this.tD = tD;
+        AppManager.tD = tD;
+    }
+
+    @Attachment(value = "Page source", type = "text/html")
+    public static byte[] attachPageSource() {
+        return WebDriverRunner.getWebDriver().getPageSource().getBytes(StandardCharsets.UTF_8);
+    }
+
+    @Attachment(value = "Video", type = "text/html", fileExtension = ".html")
+    public static String attachVideo(String sessionId) {
+        return "<html><body><video width='100%' height='100%' controls autoplay><source src='"
+                + getVideoUrl(sessionId)
+                + "' type='video/mp4'></video></body></html>";
+    }
+
+    public static String getVideoUrl(String sessionId) {
+        return getWebVideoUrl(sessionId);
+    }
+
+    public static String getWebVideoUrl(String sessionId) {
+        try {
+            return new URL(getWebVideoStorage() + sessionId + ".mp4") + "";
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getWebVideoStorage() {
+        return System.getProperty("video.storage");
+    }
+
+    public void init() {
+        errorList = new ArrayList<>();
+        mainPage().openMainPage();
     }
 
     //region Lazy Page Initialization
@@ -113,34 +143,6 @@ public class AppManager {
 
     public void savePageSource() {
         Allure.addAttachment("Page Source", "text/html", WebDriverRunner.source(), "html");
-    }
-
-    @Attachment(value = "Page source", type = "text/html")
-    public static byte[] attachPageSource() {
-        return WebDriverRunner.getWebDriver().getPageSource().getBytes(StandardCharsets.UTF_8);
-    }
-    @Attachment(value = "Video", type = "text/html", fileExtension = ".html")
-    public static String attachVideo(String sessionId) {
-        return "<html><body><video width='100%' height='100%' controls autoplay><source src='"
-                + getVideoUrl(sessionId)
-                + "' type='video/mp4'></video></body></html>";
-    }
-
-    public static String getVideoUrl(String sessionId) {
-        return getWebVideoUrl(sessionId);
-    }
-
-    public static String getWebVideoUrl(String sessionId) {
-        try {
-            return new URL(getWebVideoStorage() + sessionId + ".mp4") + "";
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static String getWebVideoStorage() {
-        return System.getProperty("video.storage");
     }
 
 }

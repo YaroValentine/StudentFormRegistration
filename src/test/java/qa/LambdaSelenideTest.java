@@ -4,6 +4,7 @@ import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.*;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -16,6 +17,7 @@ import static io.qameta.allure.Allure.step;
 
 public class LambdaSelenideTest {
 
+    @Disabled
     @Feature("Task in repo")
     @Story("Creating of a new Task")
     @Severity(SeverityLevel.CRITICAL)

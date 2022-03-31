@@ -4,6 +4,7 @@ import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Allure;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -15,6 +16,7 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class CleanSelenideWithListener {
 
+    @Disabled
     @DisplayName("Чистый Selenide (с Listener)")
     @Test
     public void cleanSelenideWithListener() {

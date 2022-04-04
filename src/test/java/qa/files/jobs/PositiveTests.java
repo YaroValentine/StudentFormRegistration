@@ -29,6 +29,7 @@ public class PositiveTests {
     void name5() {
         Assertions.assertTrue(true);
     }
+
     @Test
     void name6() {
         Assertions.assertTrue(true);

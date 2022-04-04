@@ -13,6 +13,7 @@ import qa.model.TestData;
 
 public class AnnotationsPracticeFormTest extends TestBase {
 
+    @Disabled
     @DisplayName("Шаги с аннотацией @Step внутри страницы PracticeForm")
     @ParameterizedTest
     @MethodSource("qa.app.DataSources#practiceFormTestData")

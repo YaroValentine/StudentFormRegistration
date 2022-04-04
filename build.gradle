@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id "io.qameta.allure" version "2.9.6"
 }
 
@@ -12,6 +12,7 @@ repositories {
 
 ext {
     junitVersion = '5.8.2'
+    allureVersion = '2.17.3'
 }
 
 sourceCompatibility = '11'
@@ -23,10 +24,10 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     implementation(
-            'com.codeborne:selenide:6.3.0',
-            'io.qameta.allure:allure-selenide:2.17.3',
+            'com.codeborne:selenide:6.3.5',
+            "io.qameta.allure:allure-selenide:${allureVersion}",
             "org.junit.jupiter:junit-jupiter:${junitVersion}",
-            'org.apache.poi:poi-ooxml:5.1.0',
+            'org.apache.poi:poi-ooxml:5.2.2',
             'org.codehaus.jackson:jackson-core-asl:1.9.13',
             'com.github.javafaker:javafaker:1.0.2',
             'com.codeborne:xls-test:1.4.0',
@@ -34,7 +35,7 @@ dependencies {
             'com.opencsv:opencsv:5.6',
             'com.google.code.gson:gson:2.9.0',
             'com.fasterxml.jackson.core:jackson-core:2.13.2',
-            'com.fasterxml.jackson.core:jackson-databind:2.13.2'
+            'com.fasterxml.jackson.core:jackson-databind:2.13.2.1'
     )
     testImplementation(
             'org.hamcrest:hamcrest:2.2',
@@ -49,16 +50,17 @@ dependencies {
 
 allure {
     adapter {
+        adapter.autoconfigure.set(true)
         aspectjWeaver.set(true)
         frameworks {
             junit5 {
-                adapterVersion.set("2.17.2")
+                adapterVersion.set(allureVersion)
             }
         }
 
     }
     report {
-        version.set("2.17.2")
+        version.set(allureVersion)
     }
 }
 

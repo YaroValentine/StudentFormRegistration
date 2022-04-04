@@ -65,7 +65,9 @@ allure {
 }
 
 test {
+    systemProperties(System.getProperties())
     useJUnitPlatform()
+
     testLogging {
         lifecycle {
 //            events "started", "failed"

@@ -5,6 +5,7 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import qa.app.AppManager;
 
 import static qa.app.AppManager.errorList;
@@ -17,6 +18,12 @@ public class TestBase {
     static void setUp() {
         SelenideLogger.addListener("allure", new AllureSelenide());
         Configuration.browserSize = "1980x1200";
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("enableVNC", true);
+        capabilities.setCapability("enableVideo", true);
+        Configuration.browserCapabilities = capabilities;
+        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
         app = new AppManager();
         app.init();
     }

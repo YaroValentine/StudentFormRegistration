@@ -30,5 +30,11 @@ public class SystemPropertiesTests {
     void test4() {
         System.out.println("I'd like to say " + System.getProperty("say"));
     }
+
+    @Test
+    void test6() {
+        System.out.println("String Parameter: " + System.getProperty("some_text"));
+
+    }
 }
 

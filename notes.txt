@@ -1,0 +1,3 @@
+Run single test:
+    gradle :test --tests -Dparam=value  "qa.class.path.TestClassName.testMethodName"
+

@@ -77,4 +77,12 @@ test {
     }
 }
 
+task prop_test(type: Test){
+//    systemProperties(System.getProperties())
+    useJUnitPlatform{
+        includeTags "properties"
+    }
+}
+
+
 

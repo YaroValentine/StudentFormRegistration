@@ -1,12 +1,17 @@
 package qa.files.jobs;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Selenide.open;
+
+@Tag("properties")
 public class SystemPropertiesTests {
     @Test
     void test1() {
         String browser = System.getProperty("browser");
         System.out.println(browser);
+        open("");
     }
 
     @Test
@@ -27,3 +32,4 @@ public class SystemPropertiesTests {
         System.out.println("I'd like to say " + System.getProperty("say"));
     }
 }
+

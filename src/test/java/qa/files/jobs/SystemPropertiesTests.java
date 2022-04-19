@@ -11,7 +11,6 @@ public class SystemPropertiesTests {
     void test1() {
         String browser = System.getProperty("browser");
         System.out.println(browser);
-        open("");
     }
 
     @Test

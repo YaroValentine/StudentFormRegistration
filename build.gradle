@@ -82,6 +82,14 @@ task prop_test(type: Test){
     useJUnitPlatform{
         includeTags "properties"
     }
+
+    testLogging {
+        lifecycle {
+//            events "started", "failed"
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
 }
 
 

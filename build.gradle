@@ -30,7 +30,7 @@ dependencies {
             'org.apache.poi:poi-ooxml:5.2.2',
             'org.codehaus.jackson:jackson-core-asl:1.9.13',
             'com.github.javafaker:javafaker:1.0.2',
-            'com.codeborne:xls-test:1.4.0',
+            'com.codeborne:xls-test:1.7.0',
             'com.codeborne:pdf-test:1.7.0',
             'com.opencsv:opencsv:5.6',
             'com.google.code.gson:gson:2.9.0',
@@ -39,7 +39,7 @@ dependencies {
     )
     testImplementation(
             'org.hamcrest:hamcrest:2.2',
-            'org.slf4j:slf4j-simple:1.7.36',
+//            'org.slf4j:slf4j-simple:1.7.36',
             "org.junit.jupiter:junit-jupiter:${junitVersion}",
             'org.assertj:assertj-core:3.22.0',
     )

@@ -1,9 +1,15 @@
 package qa.app;
 
 
+import com.codeborne.xlstest.XLS;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import qa.model.TestData;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -34,4 +40,39 @@ public class DataSources {
         }
         return list.iterator();
     }
+
+    public static Iterator<Object> getData() throws URISyntaxException, IOException {
+        List<Object> list = new ArrayList<>();
+        InputStream is = DataSources.class.getClassLoader()
+                .getResourceAsStream("testdata/Practice Form Test Data.xlsx");
+
+        assert is != null;
+        XLS xls = new XLS(is);
+        Sheet sheet = xls.excel.getSheetAt(0);
+        Iterator<Row> iterator = sheet.rowIterator();
+
+        while (iterator.hasNext()) {
+            Row row = iterator.next();
+            list.add(new Object[]{new TestData()
+                    .setFirstName(row.getCell(1).toString())
+                    .setLastName(row.getCell(2).toString())
+                    .setEmail(row.getCell(3).toString())
+                    .setGender(row.getCell(4).toString())
+                    .setDateOfBirth(row.getCell(5).toString())
+                    .setSubjects(new ArrayList<>(
+                            Arrays.stream(row.getCell(6).toString().split(","))
+                                    .collect(Collectors.toList())))
+                    .setMobile(row.getCell(7).toString())
+                    .setHobbies(new ArrayList<>(
+                            Arrays.stream(row.getCell(8).toString().split(","))
+                                    .collect(Collectors.toList())))
+                    .setAddress(row.getCell(9).toString())
+                    .setState(row.getCell(10).toString())
+                    .setCity(row.getCell(11).toString())
+            });
+        }
+        return list.iterator();
+    }
+
+
 }

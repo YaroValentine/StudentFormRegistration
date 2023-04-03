@@ -13,16 +13,15 @@ import org.openqa.selenium.TakesScreenshot;
 import qa.model.TestData;
 import qa.pages.MainPage;
 import qa.pages.PracticeForm;
+import qa.pages.components.CalendarComponent;
+import qa.pages.components.RegistrationResultsModal;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static com.codeborne.selenide.Selenide.$$;
 import static io.qameta.allure.Allure.addAttachment;
@@ -34,6 +33,8 @@ public class AppManager {
     private Navigation navigation;
     private MainPage mainPage;
     private PracticeForm practiceForm;
+    private CalendarComponent calendarComponent;
+    private RegistrationResultsModal registrationResultsModal;
 
     public AppManager() {
 
@@ -88,6 +89,12 @@ public class AppManager {
 
     public PracticeForm practiceForm() {
         return practiceForm == null ? new PracticeForm() : practiceForm;
+    }
+    public CalendarComponent calendarComponent() {
+        return calendarComponent == null ? new CalendarComponent() : calendarComponent;
+    }
+    public RegistrationResultsModal registrationResultsModal() {
+        return registrationResultsModal == null ? new RegistrationResultsModal() : registrationResultsModal;
     }
     //endregion
 
@@ -144,5 +151,6 @@ public class AppManager {
     public void savePageSource() {
         Allure.addAttachment("Page Source", "text/html", WebDriverRunner.source(), "html");
     }
+
 
 }

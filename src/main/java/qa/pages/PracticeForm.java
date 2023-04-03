@@ -3,8 +3,6 @@ package qa.pages;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebDriverRunner;
-import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import qa.app.AppManager;
 
@@ -53,7 +51,8 @@ public class PracticeForm extends AppManager {
     @Step("Open Practice Form")
     public PracticeForm open() {
         Selenide.open(PracticeForm.URL);
-
+        executeJavaScript("$('#fixedban').remove()");
+        executeJavaScript("$('footer').remove()");
         return this;
     }
 
@@ -78,18 +77,22 @@ public class PracticeForm extends AppManager {
     @Step("Verify Form")
     public void verifyForm() {
         String[] dateOfBirthValues = tD.getDateOfBirth().replace(",", "").split(" ");
-        String dateOfBirth = dateOfBirthValues[2] + " " + dateOfBirthValues[1] + "," + dateOfBirthValues[3];
+        tD.setDateOfBirth(dateOfBirthValues[2] + " " + dateOfBirthValues[1] + "," + dateOfBirthValues[3]);
+
         takeScreenshot();
         savePageSource();
-        tableStudentName.shouldHave(text(tD.getFirstName() + " " + tD.getLastName()));
-        tableStudentEmail.shouldHave(text(tD.getEmail()));
-        tableGender.shouldHave(text(tD.getGender()));
-        tableMobile.shouldHave(text(tD.getMobile()));
-        tableDateOfBirth.shouldHave(text(dateOfBirth));
+
+        registrationResultsModal().verifyModalAppears()
+                .verifyResult("Student Name", tD.getFirstName() + " " + tD.getLastName())
+                .verifyResult("Student Email", tD.getEmail())
+                .verifyResult("Gender", tD.getGender())
+                .verifyResult("Mobile", tD.getMobile())
+                .verifyResult("Date of Birth", tD.getDateOfBirth())
+                .verifyResult("Address", tD.getAddress())
+                .verifyResult("State and City", tD.getState());
+
         tD.getSubjects().forEach(subject -> tableSubjects.shouldHave(text(subject)));
-        tD.getHobbies().forEach(hobbie -> tableHobbies.shouldHave(text(hobbie)));
-        tableAddress.shouldHave(text(tD.getAddress()));
-        tableStateAndCity.shouldHave(text(tD.getState()));
+        tD.getHobbies().forEach(hobby -> tableHobbies.shouldHave(text(hobby)));
     }
 
     @Step("Set First Name: {value}")
@@ -115,11 +118,15 @@ public class PracticeForm extends AppManager {
     @Step("Set Date of Birth: {date}")
     private void setDateOfBirth(String date) {
         String[] formattedDate = date.replace(",", "").split(" ");
-        SelenideElement datePicker = $(String.format(".react-datepicker__day--0%s:not(.react-datepicker__day--outside-month)"
-                , formattedDate[2]));
+        String day = formattedDate[2];
+        String month = formattedDate[1];
+        String year = formattedDate[3];
+        SelenideElement datePicker = $(String.format(
+                ".react-datepicker__day--0%s:not(.react-datepicker__day--outside-month)", day));
+
         dateOfBirth.click();
-        monthPicker.selectOption(formattedDate[1]);
-        yearPicker.selectOption(formattedDate[3]);
+        monthPicker.selectOption(month);
+        yearPicker.selectOption(year);
         datePicker.click();
     }
 

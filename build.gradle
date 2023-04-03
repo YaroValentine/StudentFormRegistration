@@ -24,7 +24,7 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     implementation(
-            'com.codeborne:selenide:6.3.5',
+            'com.codeborne:selenide:6.12.4',
             "io.qameta.allure:allure-selenide:${allureVersion}",
             "org.junit.jupiter:junit-jupiter:${junitVersion}",
             'org.apache.poi:poi-ooxml:5.2.2',

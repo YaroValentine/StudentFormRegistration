@@ -41,7 +41,11 @@ public class DataSources {
         return list.iterator();
     }
 
-    public static Iterator<Object> getData() throws URISyntaxException, IOException {
+    /**
+     * @return Test Data Iterator parsed via com.codeborne.xlstest
+     * @throws IOException
+     */
+    public static Iterator<Object> getData() throws IOException {
         List<Object> list = new ArrayList<>();
         InputStream is = DataSources.class.getClassLoader()
                 .getResourceAsStream("testdata/Practice Form Test Data.xlsx");
